@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Hagowartz
 {
-    internal class Student:AuthorizedPersons
+    internal class Chemistry
     {
-
-
+        public List<String> ChemistryList { get; set; }
     }
 }

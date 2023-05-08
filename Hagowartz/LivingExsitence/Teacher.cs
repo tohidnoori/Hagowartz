@@ -8,5 +8,6 @@ namespace Hagowartz
 {
     internal class Teacher:AuthorizedPersons
     {
+        public bool SimultaneousTeaching { get; set; }
     }
 }

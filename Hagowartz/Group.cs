@@ -12,7 +12,7 @@ namespace Hagowartz
     {
         public int Score { get; set; }
         public EGroupType Type { get; set; }
-        public List<AuthorizedPersons> GroupMembers { get; set; }
-        public List<AuthorizedPersons> Qoidich { get; set; }
+        public List<AuthorizedPersons> GroupMembers { get; set; } = new List<AuthorizedPersons>();
+        public List<AuthorizedPersons> Qoidich { get; set; } = new List<AuthorizedPersons>();
     }
 }
