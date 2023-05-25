@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,9 +14,20 @@ namespace Hagowartz
     internal class Dumbledore:AuthorizedPersons
     {
         public static readonly Dumbledore dumbledore = new Dumbledore();
-
-        public static Dumbledore Instance
+        private Dumbledore()
         {
+            if(groupList.Count == 0)
+            {
+                for(int i = 0;i< 4;i++)
+                {
+                    Group group = new Group();
+                    group.Type = (EGroupType)i;
+                    groupList.Add(group);
+                }
+            }
+        }
+        public static Dumbledore Instance
+        {           
             get
             {
                 return dumbledore;
@@ -26,17 +39,23 @@ namespace Hagowartz
         public List<Human> humanList { get; set; } = new List<Human>();
         public List<Student> studentList { get; set; } = new List<Student>();
         public List<Teacher> teacherList { get; set; } = new List<Teacher>();
-
-        public void giveLetterToStudent(Student student)
+        public List<Group> groupList { get; set; } = new List<Group> ();//size 4 
+        public void giveLetterToStudent()
         {
+            Console.Write("Enter student username :");
+            string username = Console.ReadLine();
             bool finded = false;
             for (int i = 0; i < studentList.Count(); i++)
             {
-                if (student.Username == studentList[i].Username && student.Password == studentList[i].Password)
+                if (username == studentList[i].Username)
                 {
                     finded = true;
+                    Console.WriteLine("Correct");
+                    Thread.Sleep(700);
+                    Console.Clear();
                     if (!studentList[i].HaveLetter)
                     {
+                        Student student = studentList[i];
                         Console.WriteLine($"Writing Letter for {student.Name} {student.FamillyName}");
                         Thread.Sleep(500);
                         Console.WriteLine($"---------------------------------------");
@@ -53,6 +72,7 @@ namespace Hagowartz
                         Console.WriteLine($"Here you can see your letter and know more information about your trip to hagowartz:");
                         Thread.Sleep(400);
                         Console.WriteLine($"Ticket Time:{studentList[i].Letter["Ticket Time"]}\nCabin Number:{studentList[i].Letter["Cabin Number"]}\nChair Number:{studentList[i].Letter["Chair Number"]}  ");
+                        Console.WriteLine($"---------------------------------------\n");
                         studentList[i].HaveLetter = true;
                     }
                     else
@@ -69,5 +89,38 @@ namespace Hagowartz
             }
         }
 
+        public void showListOfStudents()
+        {
+            Console.WriteLine($"List of Students\t\tTotal Num:{studentList.Count}");
+            foreach(Student student in studentList)
+            {
+                Console.WriteLine(student.ToString());
+            }
+        }
+        public void showListOfTeachers()
+        {
+            Console.WriteLine($"List of Students\t\tTotal Num:{teacherList.Count}");
+            foreach (Teacher teacher in teacherList)
+            {
+                Console.WriteLine(teacher.ToString());
+            }
+        }
+
+        public void saveDataAsJson()
+        {
+            String studentFile = @"E:\students data.json";
+            String teacherFile = @"E:\teachers data.json";
+            String groupFile = @"E:\dumbledore data.json";
+            //String humanFile = @"E:\humans data.json";
+            //var humanJsonText = JsonConvert.SerializeObject(Dumbledore.Instance.humanList);
+            //File.WriteAllText(humanFile, humanJsonText.ToString());
+
+            var studentJsonText = JsonConvert.SerializeObject(Dumbledore.Instance.studentList);
+            var teacherJsonText = JsonConvert.SerializeObject(Dumbledore.Instance.teacherList);
+            var groupJsonText = JsonConvert.SerializeObject(Dumbledore.Instance.groupList);
+            File.WriteAllText(studentFile, studentJsonText.ToString());
+            File.WriteAllText(teacherFile, teacherJsonText.ToString());
+            File.WriteAllText(groupFile, groupJsonText.ToString());
+        }
     }
 }

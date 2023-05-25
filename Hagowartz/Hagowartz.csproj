@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Dorm.cs" />
     <Compile Include="JsonDataParser.cs" />
+    <Compile Include="Lessons\Math.cs" />
+    <Compile Include="Lessons\LessonMangement.cs" />
     <Compile Include="Plant.cs" />
     <Compile Include="Lessons\Sport.cs" />
     <Compile Include="LivingExsitence\AuthorizedPersons.cs" />

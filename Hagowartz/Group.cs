@@ -10,8 +10,9 @@ namespace Hagowartz
     { Hufflepuff, Gryffindor, Ravenclaw, Slytherin}
     internal class Group
     {
-        public int Score { get; set; }
-        public EGroupType Type { get; set; }
+ 
+        public int Score { get; set; } = 0;
+        public EGroupType Type { get; set; } = 0;
         public List<AuthorizedPersons> GroupMembers { get; set; } = new List<AuthorizedPersons>();
         public List<AuthorizedPersons> Qoidich { get; set; } = new List<AuthorizedPersons>();
     }

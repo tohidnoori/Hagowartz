@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace Hagowartz
 {
-    internal class MagicLesson
+    internal class MagicLesson:Lesson
     {
-        public List<String> MagicList { get; set; }
+        public MagicLesson(Lesson l) : base(l)
+        {
+        }
+        public MagicLesson()
+        {
+
+        }
+        public List<String> MagicTerm1List { get; set; }
+        public List<String> MagicTerm2List { get; set; }
+        public List<String> MagicTerm3List { get; set; }
+        public List<String> MagicTerm4List { get; set; }
     }
 }

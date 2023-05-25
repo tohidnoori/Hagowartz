@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Hagowartz
 {
-    internal class Botany
+    internal class Botany:Lesson
     {
+        public Botany(Lesson l) : base(l)
+        {
+        }
+        public Botany()
+        {
+
+        }
         public List<Plant> Term1PlantList { get; set; }
         public List<Plant> Term2PlantList { get; set; }
         public List<Plant> Term3PlantList { get; set; }

@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Hagowartz.Lessons
 {
-    internal class Sport
+    internal class Sport:Lesson
     {
+        public Sport()
+        {
+
+        }
+        public Sport(Lesson l) : base(l)
+        {
+        }
+
         public String Type { get; set; }
     }
 }

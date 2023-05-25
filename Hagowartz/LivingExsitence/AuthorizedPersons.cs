@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,12 +18,16 @@ namespace Hagowartz
     {
         public AuthorizedPersons() { }
 
-        public AuthorizedPersons(Human h) : base(h) { }
+        public AuthorizedPersons(Human h) : base(h) {
+            BirthDay= h.BirthDay;
+            Act = h.Role;
+            
+        }
 
         public int RoomNum { get; set; }
-        public Group Group { get; set; }
+        public EGroupType Group { get; set; } 
         public bool HavingLuggage { get; set; }
-        public EPet pet { get; set; }
+        public EPet Pet { get; set; }
         public EAct Act { get; set; }
         public string BirthDay { get; set; }
 
@@ -31,10 +36,13 @@ namespace Hagowartz
     
         public void showLetter()
         {
-            Console.WriteLine($"Hello {Name} {FamillyName} you are wellcomed to hagowartz.\n" +
+            if(HaveLetter)
+             Console.WriteLine($"\nHello {Name} {FamillyName} you are wellcomed to hagowartz.\n" +
                 "We are glad to see you in hagowaartz.\n" +
                 "Here you can see your letter and know more information about your trip to hagowartz:\n" +
                 $"Ticket Time:{Letter["Ticket Time"]}\nCabin Number:{Letter["Cabin Number"]}\nChair Number:{Letter["Chair Number"]}");
+            else
+                Console.WriteLine("There is no letter to show you.");
         }
     }
 }
