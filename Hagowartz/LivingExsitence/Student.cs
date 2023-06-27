@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Hagowartz
 {
     
-    internal class Student:AuthorizedPersons
+    internal class Student: AllowedPersons
     {
         public Student() { }
         public Student(Human a) : base(a)
@@ -18,6 +18,7 @@ namespace Hagowartz
 
         }
         public List<Lesson> PassedLessons { get; set; } = new List<Lesson>();
+        public List<Lesson> FailedLessons { get; set; } = new List<Lesson>();
         public List<Lesson> CurrentTermLessons { get; set; } = new List<Lesson>();
         public int Term { get; set; } = 1;
         public string DormCode { get; set; }
@@ -44,38 +45,21 @@ namespace Hagowartz
             }
         }
 
-        public void ChooseLessons()
+        public void ChoosePresentedLessons()
         {
             Console.Clear();
             if(HaveLetter && DoesGoToHagowartz)
             {
                 Console.WriteLine($"Name : {Name} {FamillyName}\t Current Term: {Term}");
                 Console.WriteLine("You can choose all of these lessons listed below: \n");
-                List<Lesson> offeredTermLessons;
-                switch (Term)
-                {
-                    case 1:
-                        offeredTermLessons = LessonMangement.Term1Lessons();
-                        
-                        break;
-                    case 2:
-                        offeredTermLessons = LessonMangement.Term1Lessons();
-                        
-                        break;
-                    case 3:
-                        offeredTermLessons = LessonMangement.Term3Lessons();
-                        
-                        break;
-                    case 4:
-                        offeredTermLessons = LessonMangement.Term4Lessons();
-                        break;
-                    default:
-                        offeredTermLessons = new List<Lesson>();
-                        break;
-                }
+                List<Lesson> offeredTermLessons= LessonMangement.Instance.giveLessons(Term);
                 if(offeredTermLessons.Count > 0)
                 {
                     foreach (Lesson lesson in offeredTermLessons)
+                    {
+                        Console.WriteLine($"{lesson.Name}\t Time: {lesson.Time}\t");
+                    }
+                    foreach (Lesson lesson in FailedLessons)
                     {
                         Console.WriteLine($"{lesson.Name}\t Time: {lesson.Time}\t");
                     }
@@ -88,6 +72,11 @@ namespace Hagowartz
                         Thread.Sleep(1000);
                         CurrentTermLessons.Clear();
                         CurrentTermLessons = offeredTermLessons;
+                        foreach (Lesson lesson in FailedLessons)
+                        {
+                            CurrentTermLessons.Add(lesson);
+                        }
+                        FailedLessons.Clear();
                         Console.WriteLine($"Ok\nYour Term {Term} lesson has been added.\n");
                         Dumbledore.Instance.saveDataAsJson();
 
@@ -124,20 +113,27 @@ namespace Hagowartz
                 int choosenLessonForExam = int.Parse(Console.ReadLine());
                 if (choosenLessonForExam >= 1 && choosenLessonForExam <= CurrentTermLessons.Count)
                 {
-                    Console.WriteLine($"If you wanna take exam for the {CurrentTermLessons[choosenLessonForExam-1].Name} enter y");
-                    if (Console.ReadLine() == "y")
-                    {
-                        Thread.Sleep(1000);
-                        Console.WriteLine("Loading...");
-                        Thread.Sleep(1000);
-                        Console.WriteLine("Your Exam Finished");
-                        CurrentTermLessons[choosenLessonForExam-1].score = score;
-                        Console.WriteLine($"Your exam score is {CurrentTermLessons[choosenLessonForExam - 1].score}");
-                        Dumbledore.Instance.saveDataAsJson();
+
+                    if (CurrentTermLessons[choosenLessonForExam - 1].score==0) {
+                        Console.WriteLine($"If you wanna take exam for the {CurrentTermLessons[choosenLessonForExam - 1].Name} enter y");
+                        if (Console.ReadLine() == "y")
+                        {
+                            Thread.Sleep(1000);
+                            Console.WriteLine("Loading...");
+                            Thread.Sleep(1000);
+                            Console.WriteLine("Your Exam Finished");
+                            CurrentTermLessons[choosenLessonForExam - 1].score = score;
+                            Console.WriteLine($"Your exam score is {CurrentTermLessons[choosenLessonForExam - 1].score}");
+                            Dumbledore.Instance.saveDataAsJson();
+                        }
+                        else
+                        {
+                            Console.WriteLine("You cancel the process of taking exam");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("You cancel the process of taking exam");
+                        Console.WriteLine("You aleary taken the exam of this lesson.");
                     }
                 }
                 else
@@ -164,6 +160,23 @@ namespace Hagowartz
                     Console.WriteLine($"Name : {lesson.Name} Score: {score}");
                 }
             }
+        }
+
+        public void SendMessageToDumbleDore()
+        {
+            Console.Clear();
+            Console.WriteLine("Type your message : ");
+            string message = Console.ReadLine();
+            Message m = new Message()
+            {
+                MessageText = message,
+                studentUsername = Username,
+                studentName= Name,
+                sendTime= DateTime.Now,
+            };
+            Dumbledore.Instance.messageList.Add(m);
+            Console.WriteLine("\nYour message has been sent.");
+
         }
 
         public override string ToString()

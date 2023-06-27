@@ -9,11 +9,58 @@ namespace Hagowartz.Lessons
 {
     internal class LessonMangement
     {
-        public LessonMangement() { }
-
-        public static List<Lesson> Term1Lessons()
+        public static readonly LessonMangement dumbledore = new LessonMangement();
+        public static LessonMangement Instance
         {
-            List<Lesson> term1Lessons= new List<Lesson>();
+            get
+            {
+                return dumbledore;
+            }
+        }
+        public List<Lesson> term1Lessons = new List<Lesson>();
+        public List<Lesson> term2Lessons = new List<Lesson>();
+        public List<Lesson> term3Lessons = new List<Lesson>();
+        public List<Lesson> term4Lessons = new List<Lesson>();
+        public LessonMangement() {
+            AddTerm1Lessons();
+            AddTerm2Lessons();
+            AddTerm3Lessons();
+            AddTerm4Lessons();
+        }
+
+        public List<Lesson> giveLessons(int term)
+        {
+            switch(term)
+            {
+                case 1:
+                    return term1Lessons;
+                    case 2: return term2Lessons;
+                    case 3: return term3Lessons;
+                    case 4: return term4Lessons; 
+            }
+            return new List<Lesson>();
+        }
+        public void AddingLessonByTeacher(Lesson ls)
+        {
+            switch (ls.OfferedTerm)
+            {
+                case 1:
+                    term1Lessons.Add(ls);
+                    break;
+                case 2:
+                    term2Lessons.Add(ls);
+                    break;
+                case 3:
+                    term3Lessons.Add(ls);
+                    break;
+                case 4:
+                    term4Lessons.Add(ls);
+                    break;
+            }
+
+        }
+        private void AddTerm1Lessons()
+        {
             Chemistry chemistry = new Chemistry();
             chemistry.Name = "Chemistry 1";
             chemistry.Time = "Tuesday 14 to 16";
@@ -55,13 +102,10 @@ namespace Hagowartz.Lessons
             sport.Type = "Volleybal";
 
             term1Lessons.Add(sport);
-
-            return term1Lessons;
         }
 
-        public static List<Lesson> Term2Lessons()
+        private void AddTerm2Lessons()
         {
-            List<Lesson> term2Lessons = new List<Lesson>();
             Chemistry chemistry = new Chemistry();
             chemistry.Name = "Chemistry 2";
             chemistry.Time = "Friday 14 to 16";
@@ -102,13 +146,10 @@ namespace Hagowartz.Lessons
             sport.Type = "Soccer";
 
             term2Lessons.Add(sport);
-
-            return term2Lessons;
         }
 
-        public static List<Lesson> Term3Lessons()
+        private void AddTerm3Lessons()
         {
-            List<Lesson> term3Lessons = new List<Lesson>();
             Chemistry chemistry = new Chemistry();
             chemistry.Name = "Chemistry 3";
             chemistry.Time = "Tuesday 14 to 16";
@@ -141,13 +182,10 @@ namespace Hagowartz.Lessons
             sport.Type = "Boxing";
 
             term3Lessons.Add(sport);
-
-            return term3Lessons;
         }
 
-        public static List<Lesson> Term4Lessons()
+        private void AddTerm4Lessons()
         {
-            List<Lesson> term4Lessons = new List<Lesson>();
             Chemistry chemistry = new Chemistry();
             chemistry.Name = "Chemistry 4";
             chemistry.Time = "Tuesday 14 to 16";
@@ -181,7 +219,6 @@ namespace Hagowartz.Lessons
 
             term4Lessons.Add(sport);
 
-            return term4Lessons;
         }
 
     }

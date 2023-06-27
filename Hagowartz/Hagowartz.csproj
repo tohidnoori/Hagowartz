@@ -51,9 +51,10 @@
     <Compile Include="JsonDataParser.cs" />
     <Compile Include="Lessons\Math.cs" />
     <Compile Include="Lessons\LessonMangement.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Plant.cs" />
     <Compile Include="Lessons\Sport.cs" />
-    <Compile Include="LivingExsitence\AuthorizedPersons.cs" />
+    <Compile Include="LivingExsitence\َAllowedPersons.cs" />
     <Compile Include="Lessons\Botany.cs" />
     <Compile Include="Lessons\Chemistry.cs" />
     <Compile Include="Group.cs" />

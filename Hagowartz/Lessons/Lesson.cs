@@ -16,7 +16,7 @@
         public string Name { get; set; }
         public int OfferedTerm { get; set; }
 
-        public double score { get; set; }
+        public double score { get; set; } = 0;
 
     }
 }

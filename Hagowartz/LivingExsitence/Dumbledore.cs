@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hagowartz
 {
-    internal class Dumbledore:AuthorizedPersons
+    internal class Dumbledore: AllowedPersons
     {
         public static readonly Dumbledore dumbledore = new Dumbledore();
         private Dumbledore()
@@ -40,6 +40,9 @@ namespace Hagowartz
         public List<Student> studentList { get; set; } = new List<Student>();
         public List<Teacher> teacherList { get; set; } = new List<Teacher>();
         public List<Group> groupList { get; set; } = new List<Group> ();//size 4 
+        public List<Message> messageList { get; set; } = new List<Message> ();
+        public List<Message> readedMessages { get; set; } = new List<Message>();
+
         public void giveLetterToStudent()
         {
             Console.Write("Enter student username :");
@@ -121,6 +124,48 @@ namespace Hagowartz
             File.WriteAllText(studentFile, studentJsonText.ToString());
             File.WriteAllText(teacherFile, teacherJsonText.ToString());
             File.WriteAllText(groupFile, groupJsonText.ToString());
+        }
+
+        public void showNewMessages()
+        {
+            Console.Clear();
+            if (messageList.Count > 0)
+            {
+                for (int i = 0; i < messageList.Count(); i++)
+                {
+                    Console.WriteLine($"Sender-username : {messageList[i].studentUsername} \t Sender-Name : {messageList[i].studentName} \t Sent-time : {messageList[i].sendTime} \n" +
+                        $"Messsage : {messageList[i].MessageText}");
+                }
+                foreach (Message m in messageList)
+                {
+                    readedMessages.Add(m);
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("There is no new messages");
+            }
+            
+            messageList.Clear();
+
+        }
+        public void showReadedMessages()
+        {
+            Console.Clear();
+            if (readedMessages.Count> 0)
+            {
+                foreach (Message m in readedMessages)
+                {
+                    Console.WriteLine($"Sender-username : {m.studentUsername} \t Sender-Name : {m.studentName} \t Sent-time : {m.sendTime} \n" +
+                       $"Messsage : {m.MessageText}");
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("There is no readed messages");
+            }
         }
     }
 }

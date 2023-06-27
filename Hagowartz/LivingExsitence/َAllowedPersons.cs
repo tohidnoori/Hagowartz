@@ -14,11 +14,11 @@ namespace Hagowartz
     public enum EAct
     { Teacher, Student }
 
-    internal class AuthorizedPersons:Human
+    internal class AllowedPersons: Human
     {
-        public AuthorizedPersons() { }
+        public AllowedPersons() { }
 
-        public AuthorizedPersons(Human h) : base(h) {
+        public AllowedPersons(Human h) : base(h) {
             BirthDay= h.BirthDay;
             Act = h.Role;
             

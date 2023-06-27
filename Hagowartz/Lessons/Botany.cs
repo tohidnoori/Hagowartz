@@ -13,7 +13,6 @@ namespace Hagowartz
         }
         public Botany()
         {
-
         }
         public List<Plant> Term1PlantList { get; set; }
         public List<Plant> Term2PlantList { get; set; }

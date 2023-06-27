@@ -48,7 +48,7 @@ namespace Hagowartz
                 Dumbledore.Instance.teacherList = JsonConvert.DeserializeObject<List<Teacher>>(File.ReadAllText(teacherFile.ToString()));
                 Dumbledore.Instance.humanList = JsonConvert.DeserializeObject<List<Human>>(File.ReadAllText(studentFile.ToString()));
                 Dumbledore.Instance.groupList = JsonConvert.DeserializeObject<List<Group>>(File.ReadAllText(groupFile.ToString()));
-           
+                
             }
             bool appIsOpen = true;
             while (appIsOpen)
@@ -71,7 +71,7 @@ namespace Hagowartz
                             while (dumbledoreOption != "m")
                             {
                                 Console.Clear();
-                                Console.WriteLine("Dumbledore Options Choose One : \n1.Give letter to the student(g) \n2.List of Students(s) \n3.List of Teachers(t) \n4.Main Menu(m)");
+                                Console.WriteLine("Dumbledore Options Choose One : \n1.Send letter to the student(g) \n2.List of Students(s) \n3.List of Teachers(t) \n4.Show new messages(snm) \n5.Show readed messages(srm) \n6.Main Menu(m)");
                                 dumbledoreOption = Console.ReadLine();
                                 switch (dumbledoreOption)
                                 {
@@ -83,6 +83,12 @@ namespace Hagowartz
                                         break;
                                     case "t":
                                         Dumbledore.Instance.showListOfTeachers();
+                                        break;
+                                    case "snm":
+                                        Dumbledore.Instance.showNewMessages();
+                                        break;
+                                    case "srm":
+                                        Dumbledore.Instance.showReadedMessages();
                                         break;
                                     case "m":
                                         Console.Write("Sending you to main menu => ");
@@ -120,7 +126,7 @@ namespace Hagowartz
                                 while (studentOption != "m")
                                 {
                                     Console.Clear();
-                                    Console.WriteLine("Student options choose One : \n1.See letter(sl) \t2.Go to Hagowartz(go) \n3.Take Exam(tx) \t4.See Exams Scores(se) \n3.Choose lesson(cl) \t4.Main Menu(m)");
+                                    Console.WriteLine("Student options choose One : \n1.See letter(sl) \n2.Go to Hagowartz(go) \n3.Participate in exam(tx) \n4.See my exams scores(se) \n5.Choose presented lesson(cl) \n6.Send message dumbledore(sm) \n7.Main menu(m)");
                                     studentOption = Console.ReadLine();
                                     switch (studentOption)
                                     {
@@ -131,15 +137,17 @@ namespace Hagowartz
                                             s1.GoToHagowartz();
                                             break;
                                         case "cl":
-                                            s1.ChooseLessons();
+                                            s1.ChoosePresentedLessons();
                                             break;
                                         case "se":
                                             s1.SeeExamsScores();
                                             break;
                                         case "tx":
                                             Random rand = new Random();
-                                            Console.WriteLine(rand.Next(7, 20));
-                                            s1.TakeExam(rand.Next(7,20));
+                                            s1.TakeExam(rand.Next(5,20));
+                                            break;
+                                        case "sm":
+                                           s1.SendMessageToDumbleDore();
                                             break;
                                         case "m":
                                             Console.Write("Sending you to main menu => ");
@@ -181,12 +189,15 @@ namespace Hagowartz
                                 while (teacherOption != "m")
                                 {
                                     Console.Clear();
-                                    Console.WriteLine("Teacher options choose One : \n1.Visit patient(v) \n2.Prescribe(p) \n4.Show groups(sg) \n3.Main Menu(m)");
+                                    Console.WriteLine("Teacher options choose One : \n1.Finillaize Student course scores(f) \n2.Show groups(sg) \n4.Add lesson(al) \n3.Main Menu(m)");
                                     teacherOption = Console.ReadLine();
                                     switch (teacherOption)
                                     {
                                         case "p":
-
+                                            theTeacher.FinallizeStudentScores();
+                                            break;
+                                        case "al":
+                                            theTeacher.AddingLessonByTeacher();
                                             break;
                                         case "sg":
                                             Console.WriteLine("Choose one group from :  Hufflepuff(h), Gryffindor(g), Ravenclaw(r), Slytherin(s)");
